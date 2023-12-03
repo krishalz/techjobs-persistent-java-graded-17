@@ -1,5 +1,6 @@
 package org.launchcode.techjobs.persistent.controllers;
 
+import jakarta.validation.Valid;
 import org.launchcode.techjobs.persistent.models.Job;
 import org.launchcode.techjobs.persistent.models.JobData;
 import org.launchcode.techjobs.persistent.models.data.JobRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.Errors;
 
 import static org.launchcode.techjobs.persistent.controllers.ListController.columnChoices;
 

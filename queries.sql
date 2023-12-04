@@ -11,3 +11,8 @@
 DROP TABLE job;
 
 --Part 4
+SELECT DISTINCT skill.name
+FROM skill
+JOIN job_skills ON skill.id = job_skills.skill_id
+JOIN job ON job_skills.job_id = job.id
+ORDER BY skill.name;

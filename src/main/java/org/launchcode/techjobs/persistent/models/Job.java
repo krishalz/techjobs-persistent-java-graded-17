@@ -9,9 +9,9 @@ import java.util.List;
 public class Job extends AbstractEntity {
 
     @ManyToOne
-    private Employer employer;
+    private Employer employer = new Employer();
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "jobs")
     private List<Skill> skills;
 
 
@@ -19,13 +19,11 @@ public class Job extends AbstractEntity {
     }
 
     // Initialize the id and value fields.
-    public Job(String aName, Employer employer, List<Skill> skills) {
+    public Job(String name, Employer employer, List<Skill> skills) {
         super();
         this.employer = employer;
         this.skills = skills;
     }
-
-    // Getters and setters.
 
     public Employer getEmployer() {
         return employer;

@@ -25,10 +25,10 @@ public class ListController {
 
     @Autowired
     private JobRepository jobRepository;
-@Autowired
-private EmployerRepository employerRepository;
-@Autowired
-private SkillRepository skillRepository;
+    @Autowired
+    private EmployerRepository employerRepository;
+    @Autowired
+    private SkillRepository skillRepository;
     static HashMap<String, String> columnChoices = new HashMap<>();
 
     public ListController () {
@@ -41,6 +41,12 @@ private SkillRepository skillRepository;
 
     @RequestMapping("")
     public String list(Model model) {
+        Iterable<Employer> employers = employerRepository.findAll();
+        Iterable<Skill> skills = skillRepository.findAll();
+
+        model.addAttribute("title", "Job List");
+        model.addAttribute("employers", employers);
+        model.addAttribute("skills", skills);
 
         return "list";
     }
@@ -48,8 +54,8 @@ private SkillRepository skillRepository;
     @RequestMapping(value = "jobs")
     public String listJobsByColumnAndValue(Model model, @RequestParam String column, @RequestParam String value) {
         Iterable<Job> jobs;
-        Iterable<Employer> employers;
-        Iterable< Skill> skills;
+//        Iterable<Employer> employers;
+//        Iterable<Skill> skills;
 
         if (column.toLowerCase().equals("all")){
             jobs = jobRepository.findAll();
@@ -60,11 +66,11 @@ private SkillRepository skillRepository;
         }
         model.addAttribute("jobs", jobs);
 
-        employers = employerRepository.findAll();
-        skills = skillRepository.findAll();
-
-        model.addAttribute("employers", employers);
-        model.addAttribute("skills", skills);
+//        employers = employerRepository.findAll();
+//        skills = skillRepository.findAll();
+//
+//        model.addAttribute("employers", employers);
+//        model.addAttribute("skills", skills);
 
         return "list-jobs";
     }

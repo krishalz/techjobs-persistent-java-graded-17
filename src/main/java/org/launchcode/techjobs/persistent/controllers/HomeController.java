@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,9 +29,12 @@ public class HomeController {
     private JobRepository jobRepository;
     @Autowired
     private SkillRepository skillRepository;
+
     @RequestMapping("/")
     public String index(Model model) {
         model.addAttribute("title", "MyJobs");
+        List<Job> jobs = (List<Job>) jobRepository.findAll();
+        model.addAttribute("jobs", jobs);
         return "index";
     }
 
@@ -39,6 +44,7 @@ public class HomeController {
         model.addAttribute("employers", employers);
         List<Skill> skills = (List<Skill>) skillRepository.findAll();
         model.addAttribute("skills", skills);
+
 	    model.addAttribute("title", "Add Job");
         model.addAttribute("job", new Job());
         return "/add";
@@ -46,7 +52,7 @@ public class HomeController {
 
     @PostMapping("add")
     public String processAddJobForm(@ModelAttribute @Valid Job newJob,
-                                       Errors errors, Model model, @RequestParam List<Integer> skills, @RequestParam int employerId) {
+                                       Errors errors, Model model, @RequestParam int employerId, @RequestParam(required = false) List<Integer> skills) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Job");
@@ -60,13 +66,15 @@ public class HomeController {
             } else {
             model.addAttribute("title", "Add Job");
             model.addAttribute("errorMsg", "Bad data!");
-            return "/add";
+            return "redirect:";
         }
-            List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
-            newJob.setSkills(skillObjs);
+        List<Skill> skillObj = (List<Skill>) skillRepository.findAllById(skills);
+        newJob.setSkills(skillObj);
+
             jobRepository.save(newJob);
             return "/index";
         }
+
 
     @GetMapping("view/{jobId}")
     public String displayViewJob(Model model, @PathVariable int jobId) {

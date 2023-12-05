@@ -72,7 +72,7 @@ public class HomeController {
         newJob.setSkills(skillObj);
 
             jobRepository.save(newJob);
-            return "/index";
+            return "redirect:";
         }
 
 
